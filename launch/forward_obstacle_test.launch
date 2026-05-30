@@ -1,0 +1,34 @@
+<launch>
+
+  <arg name="world" default="$(find lk_gazebo_bag)/worlds/simple_obstacle.world"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+  </include>
+
+  <group ns="uav1">
+
+    <param name="robot_description"
+           command="$(find xacro)/xacro $(find lk_gazebo_bag)/urdf/quadrotor_front_camera.gazebo.xacro"/>
+
+    <node name="spawn_quadrotor"
+          pkg="gazebo_ros"
+          type="spawn_model"
+          output="screen"
+          args="-urdf -param robot_description -model uav1 -x -60 -y 0.6 -z 1.5"/>
+
+    <node name="robot_state_publisher"
+        pkg="robot_state_publisher"
+        type="robot_state_publisher"
+        output="screen">
+    <param name="tf_prefix" value="uav1"/>
+    </node>
+
+    <!-- <include file="$(find hector_quadrotor_controllers)/launch/controller.launch"/> -->
+
+  </group>
+
+</launch>

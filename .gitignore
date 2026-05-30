@@ -1,0 +1,10 @@
+*.bag
+**/*.bag
+bags/
+**/bags/
+lk_sparse*/
+**/lk_sparse*/
+extracted*/
+**/extracted*/
+build/
+devel/
