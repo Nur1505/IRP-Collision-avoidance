@@ -16,6 +16,9 @@ class OnlineLKAPFVelocity:
         rospy.init_node("online_lk_apf_velocity_avoidance")
 
         self.bridge = CvBridge()
+        self.last_vx = 0.0
+        self.last_vy = 0.0
+        self.last_vz = 0.0
 
         self.prev_gray = None
         self.prev_pts = None
@@ -28,21 +31,21 @@ class OnlineLKAPFVelocity:
         # -------------------------
         # Mission / flight settings
         # -------------------------
-        self.start_x = -60.0
-        self.start_y = 0.6
-        self.goal_x = 0.0
-        self.goal_y = 0.0
+        self.start_x = -10.0
+        self.start_y = -0.0
+        self.goal_x = 10.0
+        self.goal_y = 4.0
         self.goal_z = 1.5
 
         # Direct velocity command settings [m/s]
-        self.forward_speed = 20.0
+        self.forward_speed = 2.0
         self.max_forward_speed = 25.0
-        self.max_lateral_speed = 3 ##
+        self.max_lateral_speed = 3 
         self.max_vertical_speed = 2.0
 
         # TTC/default avoidance behaviour
-        self.default_avoid_y_speed = 0.8##
-        self.danger_ttc = 10.0##
+        self.default_avoid_y_speed = 0.8
+        self.danger_ttc = 10.0
         self.last_avoid_direction = 1.0
 
         self.vy_filtered = 0.0
@@ -52,7 +55,7 @@ class OnlineLKAPFVelocity:
         # APF gains
         # -------------------------
         self.k_att_y = 3       # pulls UAV back to goal_y corridor as lateral velocity
-        self.k_rep_y = 0.08##     # turns optical-flow imbalance into lateral velocity
+        self.k_rep_y = 0.1##     # turns optical-flow imbalance into lateral velocity
         self.k_z = 1.0           # altitude hold gain
 
         # Current APF state computed from optical flow
@@ -62,11 +65,15 @@ class OnlineLKAPFVelocity:
         self.tracked_features = 0
         self.ttc_filtered = None
 
+        self.ttc_max_useful = 10.0
+        self.ttc_miss_count = 0
+        self.ttc_miss_limit = 5
+
         # -------------------------
         # Feature detection / LK parameters
         # -------------------------
         self.feature_params = dict(
-            maxCorners=500,
+            maxCorners=200,
             qualityLevel=0.01,
             minDistance=7,
             blockSize=7
@@ -108,7 +115,7 @@ class OnlineLKAPFVelocity:
 
         # This is the velocity command rate. It no longer determines forward speed.
         # Forward speed is now directly self.forward_speed in m/s.
-        rospy.Timer(rospy.Duration(0.01), self.control_loop)  # 50 Hz
+        rospy.Timer(rospy.Duration(0.01), self.control_loop)  # 100 Hz
 
         rospy.loginfo("Online LK + APF velocity avoidance node started.")
 
@@ -145,7 +152,7 @@ class OnlineLKAPFVelocity:
 
         dt = now - self.prev_time
         if dt <= 0:
-            dt = 1.0 / 30.0
+            dt = 1.0 / 60.0 #check with 60!!!!!!!!!!
 
         if self.prev_pts is None or len(self.prev_pts) < 50:
             self.prev_pts = cv2.goodFeaturesToTrack(
@@ -178,12 +185,21 @@ class OnlineLKAPFVelocity:
         self.tracked_features = len(good_new)
 
         ttc = self.estimate_ttc(good_old, good_new, gray.shape, dt)
-        if ttc is not None:
+
+        if ttc is not None and ttc < self.ttc_max_useful:
+            self.ttc_miss_count = 0
+
             if self.ttc_filtered is None:
                 self.ttc_filtered = ttc
             else:
                 alpha = 0.2
                 self.ttc_filtered = alpha * ttc + (1.0 - alpha) * self.ttc_filtered
+
+        else:
+            self.ttc_miss_count += 1
+
+            if self.ttc_miss_count > self.ttc_miss_limit:
+                self.ttc_filtered = None
 
         self.repulsive_y, self.left_danger, self.right_danger = self.compute_flow_repulsion(
             good_old,
@@ -217,6 +233,9 @@ class OnlineLKAPFVelocity:
             x_old, y_old = old.ravel()
             x_new, y_new = new.ravel()
 
+            if y_old < h * 0.35:
+                continue
+
             dx = x_new - x_old
             dy = y_new - y_old
             mag = np.sqrt(dx * dx + dy * dy)
@@ -248,6 +267,9 @@ class OnlineLKAPFVelocity:
             x_old, y_old = old.ravel()
             x_new, y_new = new.ravel()
 
+            if y_old < h * 0.35:
+                    continue
+            
             rx = x_old - cx
             ry = y_old - cy
 
@@ -299,8 +321,18 @@ class OnlineLKAPFVelocity:
             "Left flow: {:.2f}".format(self.left_danger),
             "Right flow: {:.2f}".format(self.right_danger),
             "APF rep y: {:.2f}".format(self.repulsive_y),
-            "vx cmd: {:.2f} m/s".format(0.0 if self.reached_goal else self.forward_speed)
+            "vx: {:.2f}".format(self.last_vx),
+            "vy: {:.2f}".format(self.last_vy),
+            "vz: {:.2f}".format(self.last_vz),
+            "Reached: {}".format(self.reached_goal)
         ]
+
+        if self.current_pose is not None:
+            lines.extend([
+                "x: {:.2f}".format(self.current_pose.position.x),
+                "y: {:.2f}".format(self.current_pose.position.y),
+                "z: {:.2f}".format(self.current_pose.position.z)
+            ])
 
         y0 = 35
         for i, text in enumerate(lines):
@@ -313,6 +345,8 @@ class OnlineLKAPFVelocity:
                 (255, 255, 255),
                 2
             )
+
+
 
         return output
 
@@ -338,20 +372,34 @@ class OnlineLKAPFVelocity:
 
         distance_to_goal = np.sqrt((self.goal_x - x) ** 2 + (self.goal_y - y) ** 2)
 
+        danger_active = (
+            self.ttc_filtered is not None
+            and self.ttc_filtered < self.danger_ttc
+        )
+
         # Since this test moves mainly in +x, stop if close to goal or if goal_x has been passed.
-        if distance_to_goal < self.goal_tolerance or x >= self.goal_x:
+        x_reached = x >= self.goal_x
+        y_close = abs(self.goal_y - y) < 0.8
+
+        if distance_to_goal < self.goal_tolerance or (x_reached and y_close):
             self.reached_goal = True
 
         if self.reached_goal:
+            self.last_vx = 0.0
+            self.last_vy = 0.0
+            self.last_vz = 0.0
             self.publish_velocity(0.0, 0.0, 0.0)
             return
 
         # Forward velocity command [m/s]
         # Base forward velocity
-        vx = self.forward_speed
+        if x >= self.goal_x:
+            vx = 0.0
+        else:
+            vx = self.forward_speed
 
         # Slow down when danger increases
-        if self.ttc_filtered is not None:
+        if danger_active:
 
             # Very close obstacle
             if self.ttc_filtered < 2.0:
@@ -375,8 +423,8 @@ class OnlineLKAPFVelocity:
         v_rep_y = self.k_rep_y * self.repulsive_y
 
         # If TTC says danger but obstacle is centered, keep avoiding in last chosen direction.
-        if self.ttc_filtered is not None and self.ttc_filtered < self.danger_ttc:
-            if abs(self.repulsive_y) < 1:
+        if danger_active:
+            if abs(self.repulsive_y) < 0.1:
                 v_rep_y += self.last_avoid_direction * self.default_avoid_y_speed
         
         # Raw lateral APF velocity
@@ -397,6 +445,10 @@ class OnlineLKAPFVelocity:
         error_z = self.goal_z - z
         vz = self.k_z * error_z
         vz = np.clip(vz, -self.max_vertical_speed, self.max_vertical_speed)
+
+        self.last_vx = vx
+        self.last_vy = vy
+        self.last_vz = vz
 
         self.publish_velocity(vx, vy, vz)
 

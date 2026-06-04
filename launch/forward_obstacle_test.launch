@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="world" default="$(find lk_gazebo_bag)/worlds/simple_obstacle.world"/>
+  <arg name="world" default="$(find lk_gazebo_bag)/worlds/forest.world"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world)"/>
@@ -18,7 +18,7 @@
           pkg="gazebo_ros"
           type="spawn_model"
           output="screen"
-          args="-urdf -param robot_description -model uav1 -x -60 -y 0.6 -z 1.5"/>
+          args="-urdf -param robot_description -model uav1 -x -10 -y 0 -z 1.5"/>
 
     <node name="robot_state_publisher"
         pkg="robot_state_publisher"

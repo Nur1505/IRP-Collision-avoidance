@@ -1,9 +1,16 @@
-<?xml version='1.0' encoding='utf-8'?>
-<sdf version="1.6">
-  <world name="default">
-    <light name="sun" type="directional">
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <world name='sparse_forest_10_pines'>
+
+  <gui fullscreen='0'>
+    <camera name='user_camera'>
+      <pose>-80 0 62 0 0.71 0</pose>
+    </camera>
+  </gui>
+
+    <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
-      <pose frame="">0 0 10 0 -0 0</pose>
+      <pose>0 0 20 0 0 0</pose>
       <diffuse>0.8 0.8 0.8 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
       <attenuation>
@@ -14,320 +21,181 @@
       </attenuation>
       <direction>-0.5 0.1 -0.9</direction>
     </light>
+
     <scene>
-      <sky>
-        <clouds>
-          <speed>12</speed>
-        </clouds>
-      </sky>
       <ambient>0.4 0.4 0.4 1</ambient>
       <background>0.7 0.7 0.7 1</background>
       <shadows>1</shadows>
       <origin_visual>0</origin_visual>
     </scene>
+
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-    <atmosphere type="adiabatic" />
-    <physics name="default_physics" default="0" type="ode">
-      <max_step_size>0.001</max_step_size>
+    <atmosphere type='adiabatic'/>
+
+    <!-- Lighter physics than the original forest world -->
+    <physics name='default_physics' default='1' type='ode'>
+      <max_step_size>0.005</max_step_size>
       <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
+      <real_time_update_rate>200</real_time_update_rate>
     </physics>
-    <scene>
-      <ambient>0.4 0.4 0.4 1</ambient>
-      <background>0.7 0.7 0.7 1</background>
-      <shadows>1</shadows>
-    </scene>
-    <audio>
-      <device>default</device>
-    </audio>
-    <wind />
-    <spherical_coordinates>
-      <surface_model>EARTH_WGS84</surface_model>
-      <latitude_deg>0</latitude_deg>
-      <longitude_deg>0</longitude_deg>
-      <elevation>0</elevation>
-      <heading_deg>0</heading_deg>
-    </spherical_coordinates>
-    <model name="terrain">
+
+    <!-- Simple flat ground instead of the huge terrain mesh -->
+    <model name='ground'>
       <static>1</static>
-      <link name="link">
-        <pose frame="">0 0 -2 0 -0 0</pose>
-        <collision name="collision">
-          <laser_retro>1</laser_retro>
+      <link name='link'>
+        <collision name='collision'>
           <geometry>
-            <mesh>
-              <uri>model://terrain/terreno_dataset.dae</uri>
-              <scale>50 25 3</scale>
-            </mesh>
+            <box>
+              <size>40 30 0.1</size>
+            </box>
           </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode />
-            </contact>
-            <bounce />
-            <friction>
-              <torsional>
-                <ode />
-              </torsional>
-              <ode />
-            </friction>
-          </surface>
         </collision>
-        <visual name="visual">
-          <cast_shadows>0</cast_shadows>
+        <visual name='visual'>
           <geometry>
-            <mesh>
-              <uri>model://terrain/terreno_dataset.dae</uri>
-              <scale>50 25 3</scale>
-            </mesh>
+            <box>
+              <size>40 30 0.1</size>
+            </box>
           </geometry>
           <material>
-            <script>
-              <uri>model://terrain/materials/scripts</uri>
-              <uri>model://terrain/materials/textures</uri>
-              <name>vrc/terrain</name>
-            </script>
+            <ambient>0.25 0.45 0.18 1</ambient>
+            <diffuse>0.25 0.45 0.18 1</diffuse>
           </material>
         </visual>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
       </link>
-      <pose frame="">-0.36987 -1.66134 0 0 -0 0</pose>
+      <pose>0 0 -0.05 0 0 0</pose>
     </model>
-    <model name="camino">
-      <static>1</static>
-      <link name="link">
-        <pose frame="">0 0 1.56 0 -0 0</pose>
-        <collision name="collision">
-          <laser_retro>7</laser_retro>
-          <geometry>
-            <mesh>
-              <uri>model://camino_dataset/camino.dae</uri>
-              <scale>50 25 4</scale>
-            </mesh>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode />
-            </contact>
-            <bounce />
-            <friction>
-              <torsional>
-                <ode />
-              </torsional>
-              <ode />
-            </friction>
-          </surface>
-        </collision>
-        <visual name="visual">
-          <cast_shadows>0</cast_shadows>
-          <geometry>
-            <mesh>
-              <uri>model://camino_dataset/camino.dae</uri>
-              <scale>50 25 4</scale>
-            </mesh>
-          </geometry>
-          <material>
-            <script>
-              <uri>model://camino_dataset/materials/scripts</uri>
-              <uri>model://camino_dataset/materials/textures</uri>
-              <name>vrc/camino</name>
-            </script>
-          </material>
-        </visual>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <static>1</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose frame="">541.363 -59.6 0 0 -0 0</pose>
-    </model>
-    <gui fullscreen="0">
-      <camera name="user_camera">
-        <pose frame="">-107.129 4.69102 42.6066 0 0.561797 0.1675</pose>
-        <view_controller>orbit</view_controller>
-        <projection_type>perspective</projection_type>
-      </camera>
-    </gui>
+
+    <!-- 10 sparse trees using the SAME pine model families from your original world:
+         model://pine_1, model://pine_2, ..., model://pine_6
+         These are the models referenced in your pasted forest world. -->
+
     <include>
-      <name>good_tree_00</name>
-      <uri>model://pine_tree</uri>
-      <pose>58.6164 -20.5189 0.0000 0 0 0.0000</pose>
+      <name>tree_01_pine_1</name>
+      <uri>model://pine_1</uri>
+      <pose>13 3 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_01</name>
-      <uri>model://tree_8</uri>
-      <pose>12.9814 -2.2252 0 0 0 0.4700</pose>
+      <name>tree_02_pine_2</name>
+      <uri>model://pine_2</uri>
+      <pose>25 3 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_02</name>
-      <uri>model://tree_8_v</uri>
-      <pose>14.4763 -2.1105 0 0 0 0.9400</pose>
+      <name>tree_01_pine_1</name>
+      <uri>model://pine_1</uri>
+      <pose>18 0 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_03</name>
+      <name>tree_02_pine_2</name>
+      <uri>model://pine_2</uri>
+      <pose>30 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree_a</name>
       <uri>model://arbol1</uri>
-      <pose>12.4702 -4.1942 0 0 0 1.4100</pose>
+      <pose>0 0 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_04</name>
+      <name>tree_b</name>
       <uri>model://arbol2</uri>
-      <pose>16.0675 -4.1574 0 0 0 1.8800</pose>
+      <pose>-2 5 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_05</name>
-      <uri>model://arbol3</uri>
-      <pose>10.8567 -4.8933 0 0 0 2.3500</pose>
-    </include>
-    <include>
-      <name>good_tree_06</name>
-      <uri>model://arbol4</uri>
-      <pose>10.4883 -3.6231 0 0 0 2.8200</pose>
-    </include>
-    <include>
-      <name>good_tree_07</name>
-      <uri>model://arbol5</uri>
-      <pose>12.2660 -2.7892 0 0 0 3.2900</pose>
-    </include>
-    <include>
-      <name>good_tree_08</name>
-      <uri>model://arbol7</uri>
-      <pose>15.5890 -2.7736 0 0 0 3.7600</pose>
-    </include>
-    <include>
-      <name>good_tree_09</name>
-      <uri>model://arbol8</uri>
-      <pose>12.2723 -1.7750 0 0 0 4.2300</pose>
-    </include>
-    <include>
-      <name>good_tree_10</name>
-      <uri>model://pine_tree</uri>
-      <pose>13.8829 -1.3504 0 0 0 4.7000</pose>
-    </include>
-    <include>
-      <name>good_tree_11</name>
-      <uri>model://tree_8</uri>
-      <pose>10.8271 -2.3809 0 0 0 5.1700</pose>
-    </include>
-    <include>
-      <name>good_tree_12</name>
-      <uri>model://tree_8_v</uri>
-      <pose>8.2894 -5.6496 0 0 0 5.6400</pose>
-    </include>
-    <include>
-      <name>good_tree_13</name>
-      <uri>model://arbol1</uri>
-      <pose>6.8602 -4.3976 0 0 0 6.1100</pose>
-    </include>
-    <include>
-      <name>good_tree_14</name>
+      <name>tree_c</name>
       <uri>model://arbol2</uri>
-      <pose>6.8011 -2.8740 0 0 0 0.2970</pose>
+      <pose>-1 -5 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_15</name>
-      <uri>model://arbol3</uri>
-      <pose>6.4003 -5.7917 0 0 0 0.7670</pose>
-    </include>
+      <name>tree_c</name>
+      <uri>model://pine_3</uri>
+      <pose>28 8 0 0 0 0</pose>
+    </include> 
+
     <include>
-      <name>good_tree_16</name>
-      <uri>model://arbol4</uri>
-      <pose>5.4754 -3.9378 0 0 0 1.2370</pose>
-    </include>
-    <include>
-      <name>good_tree_17</name>
-      <uri>model://arbol5</uri>
-      <pose>4.9867 -1.6630 0 0 0 1.7070</pose>
-    </include>
-    <include>
-      <name>good_tree_18</name>
-      <uri>model://arbol7</uri>
-      <pose>4.5443 -3.2750 0 0 0 2.1770</pose>
-    </include>
-    <include>
-      <name>good_tree_19</name>
-      <uri>model://arbol8</uri>
-      <pose>4.4782 -5.0299 0 0 0 2.6470</pose>
-    </include>
-    <include>
-      <name>good_tree_20</name>
-      <uri>model://pine_tree</uri>
-      <pose>-1.0575 -7.3951 0 0 0 3.1170</pose>
-    </include>
-    <include>
-      <name>good_tree_21</name>
-      <uri>model://tree_8</uri>
-      <pose>-4.7643 -8.0579 0 0 0 3.5870</pose>
-    </include>
-    <include>
-      <name>good_tree_22</name>
-      <uri>model://tree_8_v</uri>
-      <pose>-3.5703 -8.2632 0 0 0 4.0570</pose>
-    </include>
-    <include>
-      <name>good_tree_23</name>
-      <uri>model://arbol1</uri>
-      <pose>-5.7432 -7.5761 0 0 0 4.5270</pose>
-    </include>
-    <include>
-      <name>good_tree_24</name>
+      <name>tree_d</name>
       <uri>model://arbol2</uri>
-      <pose>-5.9090 -5.9238 0 0 0 4.9970</pose>
+      <pose>-5 8 0 0 0 0</pose>
     </include>
+
+<!--new new new-->
     <include>
-      <name>good_tree_25</name>
-      <uri>model://arbol3</uri>
-      <pose>-8.7677 -13.5518 0 0 0 5.4670</pose>
+      <name>tree_01_pine_1</name>
+      <uri>model://pine_1</uri>
+      <pose>13 7 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_26</name>
-      <uri>model://arbol4</uri>
-      <pose>-9.8504 -14.1443 0 0 0 5.9370</pose>
+      <name>tree_02_pine_2</name>
+      <uri>model://pine_2</uri>
+      <pose>25 7 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_27</name>
-      <uri>model://arbol5</uri>
-      <pose>-9.1500 -15.3157 0 0 0 0.1240</pose>
+      <name>tree_01_pine_1</name>
+      <uri>model://pine_1</uri>
+      <pose>18 10 0 0 0 0</pose>
     </include>
+
     <include>
-      <name>good_tree_28</name>
-      <uri>model://arbol7</uri>
-      <pose>-10.4139 -16.7892 0 0 0 0.5940</pose>
+      <name>tree_02_pine_2</name>
+      <uri>model://pine_2</uri>
+      <pose>30 10 0 0 0 0</pose>
     </include>
+<!--
     <include>
-      <name>good_tree_29</name>
-      <uri>model://arbol8</uri>
-      <pose>-10.9285 -15.5282 0 0 0 1.0640</pose>
+      <name>tree_03_pine_3</name>
+      <uri>model://pine_3</uri>
+      <pose>16 -5 0 0 0 0.8</pose>
     </include>
+
     <include>
-      <name>good_tree_30</name>
-      <uri>model://pine_tree</uri>
-      <pose>-11.9685 -16.8575 0 0 0 1.5340</pose>
+      <name>tree_04_pine_4</name>
+      <uri>model://pine_4</uri>
+      <pose>22 2 0 0 0 -1.1</pose>
     </include>
+
     <include>
-      <name>good_tree_31</name>
-      <uri>model://tree_8</uri>
-      <pose>-12.4160 -14.8274 0 0 0 2.0040</pose>
+      <name>tree_05_pine_5</name>
+      <uri>model://pine_5</uri>
+      <pose>25 -6 0 0 0 1.4</pose>
     </include>
+
     <include>
-      <name>good_tree_32</name>
-      <uri>model://tree_8_v</uri>
-      <pose>-11.7562 -18.0804 0 0 0 2.4740</pose>
+      <name>tree_06_pine_6</name>
+      <uri>model://pine_6</uri>
+      <pose>29 5 0 0 0 -0.2</pose>
     </include>
+
     <include>
-      <name>good_tree_33</name>
-      <uri>model://arbol1</uri>
-      <pose>-6.1097 -11.8204 0 0 0 2.9440</pose>
+      <name>tree_07_pine_1</name>
+      <uri>model://pine_1</uri>
+      <pose>33 -2 0 0 0 0.6</pose>
     </include>
+
     <include>
-      <name>good_tree_34</name>
-      <uri>model://arbol2</uri>
-      <pose>-14.4043 -9.6325 0 0 0 3.4140</pose>
+      <name>tree_08_pine_2</name>
+      <uri>model://pine_2</uri>
+      <pose>36 7 0 0 0 -0.9</pose>
     </include>
+
+    <include>
+      <name>tree_09_pine_3</name>
+      <uri>model://pine_3</uri>
+      <pose>38 -7 0 0 0 1.0</pose>
+    </include>
+
+    <include>
+      <name>tree_10_pine_4</name>
+      <uri>model://pine_4</uri>
+      <pose>18 8 0 0 0 -1.5</pose>
+    </include> -->
+
   </world>
 </sdf>
