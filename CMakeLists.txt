@@ -8,6 +8,7 @@ project(lk_gazebo_bag)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  hector_uav_msgs
   cv_bridge
   geometry_msgs
   image_transport
@@ -18,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 
+find_package(OpenCV REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -123,6 +125,45 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+)
+
+add_executable(online_lk_vpf_apf_smart_rot_trigger_cpp
+  src/online_lk_vpf_apf_smart_rot_trigger.cpp
+)
+
+target_link_libraries(online_lk_vpf_apf_smart_rot_trigger_cpp
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+add_executable(heading_angle
+  src/heading_angle.cpp
+)
+
+target_link_libraries(heading_angle
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBS}
+  ${OpenCV_LIBRARIES}
+  opencv_video
+)
+
+add_executable(online_lk_vpf_apf_with_path_controller
+  src/online_lk_vpf_apf_with_path_controller.cpp
+)
+
+target_link_libraries(online_lk_vpf_apf_with_path_controller
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+add_executable(online_lk_vpf_apf_goal_capture
+  src/online_lk_vpf_apf_goal_capture.cpp
+)
+
+target_link_libraries(online_lk_vpf_apf_goal_capture
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
 )
 
 ## Declare a C++ library

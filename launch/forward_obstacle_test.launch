@@ -1,12 +1,12 @@
 <launch>
 
-  <arg name="world" default="$(find lk_gazebo_bag)/worlds/forest.world"/>
+  <arg name="world" default="$(find lk_gazebo_bag)/worlds/dense_forest_complex.world"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world)"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="true"/>
+    <arg name="gui" value="false"/>
   </include>
 
   <group ns="uav1">
@@ -18,7 +18,7 @@
           pkg="gazebo_ros"
           type="spawn_model"
           output="screen"
-          args="-urdf -param robot_description -model uav1 -x -10 -y 0 -z 1.5"/>
+          args="-urdf -param robot_description -model uav1 -x -17 -y 4.0 -z 1"/>
 
     <node name="robot_state_publisher"
         pkg="robot_state_publisher"

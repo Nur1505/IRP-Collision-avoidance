@@ -1,0 +1,65 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <world name='sparse_forest_10_pines'>
+
+  <gui fullscreen='0'>
+    <camera name='user_camera'>
+      <pose>-16.88 11.47 6.01 0 0.25 -0.056 0</pose>
+    </camera>
+  </gui>
+  <shadows>0</shadows>
+
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 20 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <physics name='default_physics' default='1' type='ode'>
+      <max_step_size>0.005</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+
+    <!-- Simple flat ground instead of the huge terrain mesh -->
+    <model name='ground'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>40 30 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>40 30 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.25 0.45 0.18 1</ambient>
+            <diffuse>0.25 0.45 0.18 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>0 0 -0.05 0 0 0</pose>
+    </model>
+
+<include>
+  <name>tree_01_pine_1</name>
+  <uri>model://pine_1</uri>
+  <pose>0 0 0 0 0 0</pose>
+</include>
+
+</world>
+</sdf>

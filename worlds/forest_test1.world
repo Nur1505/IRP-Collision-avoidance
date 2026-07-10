@@ -1,0 +1,190 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <world name='medium_forest_goal_13_10'>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-49 27 52 0 0.75 -0.76 0</pose>
+      </camera>
+    </gui>
+
+    <shadows>0</shadows>
+
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 20 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <physics name='default_physics' default='1' type='ode'>
+      <max_step_size>0.005</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+
+    <model name='ground'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>45 35 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>45 35 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.25 0.45 0.18 1</ambient>
+            <diffuse>0.25 0.45 0.18 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>3 2 -0.05 0 0 0</pose>
+    </model>
+
+    <!-- Left entrance obstacles -->
+    <include>
+      <name>tree_01</name>
+      <uri>model://tree_8</uri>
+      <pose>-10 6.5 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree_02</name>
+      <uri>model://pine_1</uri>
+      <pose>-8 4.5 0 0 0 0.2</pose>
+    </include>
+
+    <include>
+      <name>tree_03</name>
+      <uri>model://tree_8</uri>
+      <pose>-7 8.5 0 0 0 -0.4</pose>
+    </include>
+
+    <!-- First avoidance pair -->
+    <include>
+      <name>tree_04</name>
+      <uri>model://pine_1</uri>
+      <pose>-4 7.5 0 0 0 0.3</pose>
+    </include>
+
+    <include>
+      <name>tree_05</name>
+      <uri>model://tree_8</uri>
+      <pose>-3 11.0 0 0 0 0.6</pose>
+    </include>
+
+    <include>
+      <name>tree_06</name>
+      <uri>model://pine_1</uri>
+      <pose>-1 10.0 0 0 0 -0.5</pose>
+    </include>
+
+    <!-- Central corridor / slalom -->
+    <include>
+      <name>tree_07</name>
+      <uri>model://tree_8</uri>
+      <pose>1 12.0 0 0 0 0.1</pose>
+    </include>
+
+    <include>
+      <name>tree_08</name>
+      <uri>model://pine_1</uri>
+      <pose>2 8.0 0 0 0 0.4</pose>
+    </include>
+
+    <include>
+      <name>tree_09</name>
+      <uri>model://tree_8</uri>
+      <pose>4 10.5 0 0 0 -0.2</pose>
+    </include>
+
+    <include>
+      <name>tree_10</name>
+      <uri>model://pine_1</uri>
+      <pose>5.5 8.0 0 0 0 0.7</pose>
+    </include>
+
+    <include>
+      <name>tree_11</name>
+      <uri>model://tree_8</uri>
+      <pose>7.0 11.5 0 0 0 -0.3</pose>
+    </include>
+
+    <include>
+      <name>tree_12</name>
+      <uri>model://pine_1</uri>
+      <pose>8.0 9.5 0 0 0 0.6</pose>
+    </include>
+
+    <!-- Near-goal challenge -->
+    <include>
+      <name>tree_13</name>
+      <uri>model://tree_8</uri>
+      <pose>10.0 10.0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree_14</name>
+      <uri>model://pine_1</uri>
+      <pose>11.5 8.0 0 0 0 0.4</pose>
+    </include>
+
+    <include>
+      <name>tree_15</name>
+      <uri>model://tree_8</uri>
+      <pose>12.0 11.8 0 0 0 -0.6</pose>
+    </include>
+
+    <include>
+      <name>tree_16</name>
+      <uri>model://pine_1</uri>
+      <pose>14.5 8.5 0 0 0 0.8</pose>
+    </include>
+
+    <include>
+      <name>tree_17</name>
+      <uri>model://tree_8</uri>
+      <pose>15.0 12.0 0 0 0 -0.5</pose>
+    </include>
+
+    <!-- Background trees, not directly on path -->
+    <include>
+      <name>tree_18</name>
+      <uri>model://pine_1</uri>
+      <pose>-8 -4.5 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree_19</name>
+      <uri>model://tree_8</uri>
+      <pose>3 2 0 0 0 0.5</pose>
+    </include>
+
+    <include>
+      <name>tree_20</name>
+      <uri>model://pine_1</uri>
+      <pose>10 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree_21</name>
+      <uri>model://tree_8</uri>
+      <pose>15 3 0 0 0 0.2</pose>
+    </include>
+
+  </world>
+</sdf>

@@ -25,38 +25,87 @@ class OnlineLKAPFVelocity:
         self.prev_time = None
         self.current_pose = None
 
-        self.goal_tolerance = 0.5
+        self.goal_tolerance = 0.3
         self.reached_goal = False
+        self.takeoff_done = False
+
+        self.collision_count = 0
+        self.in_collision = False
+        self.results_printed = False
+        
+        self.obstacles = [
+            (6, 2),
+            (8, 2),
+            (10, 2),
+            (6, 6),
+            (8, 6),
+            (10, 6),
+            (10, 3),
+            (10, 4.2),
+            (10, 5),
+            (-8, 5),
+            (-8, -5)
+        ]
+        # -------------------------
+        # APF mode switch
+        # -------------------------
+        # False = regular APF only: attraction + repulsion
+        # True  = regular APF first, then rotational APF only when
+        #         forward-speed reduction OR oscillation is detected
+        self.use_rotational_apf = False
+        self.k_rot = 0.2
+
+        # Rotational APF activation conditions
+        self.forward_reduction_ratio = 0.3  # activate if vx < 30% of nominal forward speed
+
+        # Oscillation detection from commanded lateral velocity (vy) sign changes
+        self.vy_sign_threshold = 0.2
+        self.prev_vy_sign = 0.0
+        self.oscillation_count = 0
+        self.total_oscillation_count = 0
+        self.oscillation_limit = 3
+        self.oscillation_failure = False
+        self.oscillation_failure_time = 30.0
+
+        self.oscillation_active = False
+        self.oscillation_memory_time = 2.0
+        self.oscillation_episode_start_time = None
+        self.last_oscillation_time = None
+
+        # For display/debugging
+        self.forward_reduction_active = False
+        self.rotational_apf_active = False
+        self.rotational_trigger_reason = "none"
 
         # -------------------------
         # Mission / flight settings
         # -------------------------
-        self.start_x = -10.0
-        self.start_y = -0.0
-        self.goal_x = 10.0
+        self.start_x = -16.0
+        self.start_y = 4.0
+        self.goal_x = 12.0
         self.goal_y = 4.0
         self.goal_z = 1.5
 
         # Direct velocity command settings [m/s]
         self.forward_speed = 2.0
         self.max_forward_speed = 25.0
-        self.max_lateral_speed = 3 
-        self.max_vertical_speed = 2.0
+        self.max_lateral_speed = 2 #3
+        self.max_vertical_speed = 0.5
 
         # TTC/default avoidance behaviour
-        self.default_avoid_y_speed = 0.8
+        self.default_avoid_y_speed = 0.8 #0.8
         self.danger_ttc = 10.0
         self.last_avoid_direction = 1.0
 
         self.vy_filtered = 0.0
-        self.vy_alpha = 0.15
+        self.vy_alpha = 0.08
         
         # -------------------------
         # APF gains
         # -------------------------
-        self.k_att_y = 3       # pulls UAV back to goal_y corridor as lateral velocity
-        self.k_rep_y = 0.1##     # turns optical-flow imbalance into lateral velocity
-        self.k_z = 1.0           # altitude hold gain
+        self.k_att_y = 2       # pulls UAV back to goal_y corridor as lateral velocity
+        self.k_rep_y = 0.15     # turns optical-flow imbalance into lateral velocity
+        self.k_z = 1.0         # altitude hold gain
 
         # Current APF state computed from optical flow
         self.repulsive_y = 0.0
@@ -111,6 +160,8 @@ class OnlineLKAPFVelocity:
             queue_size=1
         )
 
+        rospy.on_shutdown(self.print_final_results)
+
         self.enable_motors()
 
         # This is the velocity command rate. It no longer determines forward speed.
@@ -152,7 +203,7 @@ class OnlineLKAPFVelocity:
 
         dt = now - self.prev_time
         if dt <= 0:
-            dt = 1.0 / 60.0 #check with 60!!!!!!!!!!
+            dt = 1.0 / 30.0
 
         if self.prev_pts is None or len(self.prev_pts) < 50:
             self.prev_pts = cv2.goodFeaturesToTrack(
@@ -256,6 +307,43 @@ class OnlineLKAPFVelocity:
 
         return float(repulsive_y), float(left_danger), float(right_danger)
 
+    def update_oscillation_detector(self, vy):
+        # Oscillation = commanded lateral velocity keeps flipping left/right.
+        # This detects actual controller output oscillation, not only optical-flow noise.
+        if abs(vy) < self.vy_sign_threshold:
+            current_sign = 0.0
+        else:
+            current_sign = np.sign(vy)
+
+        now = rospy.Time.now().to_sec()
+
+        if current_sign != 0.0:
+            if self.prev_vy_sign != 0.0 and current_sign != self.prev_vy_sign:
+                self.oscillation_count += 1
+                self.total_oscillation_count += 1
+                self.last_oscillation_time = now
+
+                if self.oscillation_episode_start_time is None:
+                    self.oscillation_episode_start_time = now
+
+                if self.oscillation_count >= self.oscillation_limit:
+                    self.oscillation_active = True
+
+                if (now - self.oscillation_episode_start_time) > self.oscillation_failure_time:
+                    self.oscillation_failure = True
+            else:
+                # Slowly forget old oscillations when the sign is stable.
+                self.oscillation_count = max(0, self.oscillation_count - 1)
+
+            self.prev_vy_sign = current_sign
+
+        # Clear the active/controller memory if no new lateral oscillation occurred recently.
+        if self.last_oscillation_time is not None:
+            if (now - self.last_oscillation_time) > self.oscillation_memory_time:
+                self.oscillation_active = False
+                self.oscillation_count = 0
+                self.oscillation_episode_start_time = None
+
     def estimate_ttc(self, old_pts, new_pts, image_shape, dt):
         h, w = image_shape
         cx = w / 2.0
@@ -324,7 +412,13 @@ class OnlineLKAPFVelocity:
             "vx: {:.2f}".format(self.last_vx),
             "vy: {:.2f}".format(self.last_vy),
             "vz: {:.2f}".format(self.last_vz),
-            "Reached: {}".format(self.reached_goal)
+            "Reached: {}".format(self.reached_goal),
+            "Rot APF enabled: {}".format(self.use_rotational_apf),
+            "Rot APF active: {}".format(self.rotational_apf_active),
+            "Rot trigger: {}".format(self.rotational_trigger_reason),
+            "Osc count: {}".format(self.oscillation_count),
+            "Total osc: {}".format(self.total_oscillation_count),
+            "Osc failure: {}".format(self.oscillation_failure)
         ]
 
         if self.current_pose is not None:
@@ -370,25 +464,103 @@ class OnlineLKAPFVelocity:
         y = self.current_pose.position.y
         z = self.current_pose.position.z
 
-        distance_to_goal = np.sqrt((self.goal_x - x) ** 2 + (self.goal_y - y) ** 2)
+        collision_radius = 0.4
+        collision_now = False
 
+        for ox, oy in self.obstacles:
+
+            d = np.sqrt((x - ox)**2 + (y - oy)**2)
+
+            if d < collision_radius:
+                collision_now = True
+                break
+
+        if collision_now and not self.in_collision:
+            self.collision_count += 1
+            rospy.logwarn("Collision #%d detected!",
+                        self.collision_count)
+
+        self.in_collision = collision_now
+
+        # -------------------------
+        # Takeoff phase
+        # -------------------------
+        if not self.takeoff_done:
+            error_z = self.goal_z - z
+
+            vz = self.k_z * error_z
+            vz = np.clip(vz, -self.max_vertical_speed, self.max_vertical_speed)
+
+            self.last_vx = 0.0
+            self.last_vy = 0.0
+            self.last_vz = vz
+
+            self.publish_velocity(0.0, 0.0, vz)
+
+            if abs(error_z) < 0.2:
+                self.takeoff_done = True
+                rospy.loginfo("Takeoff altitude reached. Starting forward flight.")
+
+            return
+
+        distance_to_goal = np.sqrt(
+            (self.goal_x - x) ** 2 +
+            (self.goal_y - y) ** 2
+        )
         danger_active = (
             self.ttc_filtered is not None
             and self.ttc_filtered < self.danger_ttc
         )
 
         # Since this test moves mainly in +x, stop if close to goal or if goal_x has been passed.
-        x_reached = x >= self.goal_x
+        x_reached = x >= self.goal_x and abs(self.goal_x - x) < self.goal_tolerance
         y_close = abs(self.goal_y - y) < 0.8
 
         if distance_to_goal < self.goal_tolerance or (x_reached and y_close):
             self.reached_goal = True
 
-        if self.reached_goal:
+        if self.reached_goal or self.oscillation_failure:
+            if not self.results_printed:
+                rospy.loginfo("========== FINAL RESULTS ==========")
+                if self.reached_goal:
+                    rospy.loginfo("Termination reason: Goal reached")
+
+                elif self.oscillation_failure:
+                    rospy.loginfo("Termination reason: Persistent oscillation (>30 s)")
+                
+                rospy.loginfo("Final Position: x=%.2f y=%.2f z=%.2f",
+                            x, y, z)
+
+                rospy.loginfo("Tracked Features: %d",
+                            self.tracked_features)
+
+                rospy.loginfo("Oscillation Count: %d",
+                            self.oscillation_count)
+
+                rospy.loginfo("Total Oscillation Count: %d",
+                            self.total_oscillation_count)
+
+                rospy.loginfo("Collisions: %d",
+                            self.collision_count)
+
+                rospy.loginfo("Rotational APF Used: %s",
+                            str(self.use_rotational_apf))
+                
+
+                rospy.loginfo("===================================")
+
+                self.results_printed = True
+            error_z = self.goal_z - z
+            vz = self.k_z * error_z
+            vz = np.clip(vz, -self.max_vertical_speed, self.max_vertical_speed)
+
+            if abs(error_z) < 0.15:
+                vz = 0.0
+
             self.last_vx = 0.0
             self.last_vy = 0.0
-            self.last_vz = 0.0
-            self.publish_velocity(0.0, 0.0, 0.0)
+            self.last_vz = vz
+            self.publish_velocity(0.0, 0.0, vz)
             return
 
         # Forward velocity command [m/s]
@@ -422,13 +594,47 @@ class OnlineLKAPFVelocity:
         # Optical-flow APF lateral velocity
         v_rep_y = self.k_rep_y * self.repulsive_y
 
-        # If TTC says danger but obstacle is centered, keep avoiding in last chosen direction.
+        # Optional rotational APF tangential component
+        # Regular APF:    vy_raw = v_att_y + v_rep_y
+        # Rotational APF: regular APF first, then add v_rot_y only if:
+        #   1) forward speed has been reduced significantly, OR
+        #   2) left/right avoidance oscillation is detected.
+        v_rot_y = 0.0
+        self.rotational_apf_active = False
+        self.forward_reduction_active = False
+        self.rotational_trigger_reason = "none"
+
+        forward_reduction_trigger = (
+            danger_active
+            and vx < self.forward_reduction_ratio * self.forward_speed
+        )
+
+        oscillation_trigger = (
+            danger_active
+            and self.oscillation_active
+        )
+
+        self.forward_reduction_active = forward_reduction_trigger
+
+        if self.use_rotational_apf and (forward_reduction_trigger or oscillation_trigger):
+            rot_sign = self.last_avoid_direction
+            v_rot_y = rot_sign * self.k_rot * abs(vx)
+            self.rotational_apf_active = True
+
+            if forward_reduction_trigger and oscillation_trigger:
+                self.rotational_trigger_reason = "speed+oscillation"
+            elif forward_reduction_trigger:
+                self.rotational_trigger_reason = "speed"
+            else:
+                self.rotational_trigger_reason = "oscillation"
+
+        # If TTC says danger but obstacle is centered, keep avoiding in last chosen direction
         if danger_active:
             if abs(self.repulsive_y) < 0.1:
                 v_rep_y += self.last_avoid_direction * self.default_avoid_y_speed
-        
-        # Raw lateral APF velocity
-        vy_raw = v_att_y + v_rep_y
+
+        # Final APF lateral command
+        vy_raw = v_att_y + v_rep_y + v_rot_y
 
         # Limit raw lateral command
         vy_raw = np.clip(vy_raw, -self.max_lateral_speed, self.max_lateral_speed)
@@ -441,6 +647,8 @@ class OnlineLKAPFVelocity:
 
         vy = self.vy_filtered
 
+        self.update_oscillation_detector(vy)
+
         # Simple altitude hold as vertical velocity command
         error_z = self.goal_z - z
         vz = self.k_z * error_z
@@ -452,6 +660,27 @@ class OnlineLKAPFVelocity:
 
         self.publish_velocity(vx, vy, vz)
 
+    def print_final_results(self):
+
+        if self.results_printed:
+            return
+
+        self.results_printed = True
+
+        rospy.loginfo("========== FINAL RESULTS ==========")
+        rospy.loginfo("Termination reason: Manual stop / node shutdown")
+
+        if self.current_pose is not None:
+            rospy.loginfo("Final Position: x=%.2f y=%.2f z=%.2f",
+                        self.current_pose.position.x,
+                        self.current_pose.position.y,
+                        self.current_pose.position.z)
+
+        rospy.loginfo("Tracked Features: %d", self.tracked_features)
+        rospy.loginfo("Total Oscillation Count: %d", self.total_oscillation_count)
+        rospy.loginfo("Collisions: %d", self.collision_count)
+        rospy.loginfo("Rotational APF Used: %s", str(self.use_rotational_apf))
+        rospy.loginfo("===================================")
 
 if __name__ == "__main__":
     try:
