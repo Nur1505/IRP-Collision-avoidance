@@ -1,0 +1,81 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <world name='two_trees_trap_v_shape'>
+
+  <gui fullscreen='0'>
+    <camera name='user_camera'>
+      <pose>-5 15 15 0 0.3 0 0</pose>
+    </camera>
+  </gui>
+  <shadows>0</shadows>
+
+  <light name='sun' type='directional'>
+    <cast_shadows>1</cast_shadows>
+    <pose>0 0 20 0 0 0</pose>
+    <diffuse>0.8 0.8 0.8 1</diffuse>
+    <specular>0.2 0.2 0.2 1</specular>
+    <attenuation>
+      <range>1000</range>
+      <constant>0.9</constant>
+      <linear>0.01</linear>
+      <quadratic>0.001</quadratic>
+    </attenuation>
+    <direction>-0.5 0.1 -0.9</direction>
+  </light>
+
+  <physics name='default_physics' default='1' type='ode'>
+    <max_step_size>0.005</max_step_size>
+    <real_time_factor>1</real_time_factor>
+    <real_time_update_rate>200</real_time_update_rate>
+  </physics>
+
+  <!-- Ground -->
+  <model name='ground'>
+    <static>1</static>
+    <link name='link'>
+      <collision name='collision'>
+        <geometry>
+          <box>
+            <size>30 20 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>30 20 0.1</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.25 0.45 0.18 1</ambient>
+          <diffuse>0.25 0.45 0.18 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <pose>0 0 -0.05 0 0 0</pose>
+  </model>
+
+  <!-- ============ V-SHAPE ENTRANCE ============ -->
+  
+  <!-- Left V tree (forces UAV to go right) -->
+  <include><name>tree_VL</name><uri>model://pine_1</uri><pose>2.0 4.5 0 0 0 0.2</pose></include>
+  
+  <!-- Right V tree (forces UAV to go left) -->
+  <include><name>tree_VR</name><uri>model://pine_1</uri><pose>2.0 7.5 0 0 0 -0.2</pose></include>
+
+  <!-- ============ MAIN TRAP ============ -->
+  
+  <!-- Left tree (forces UAV to go right) -->
+  <include><name>tree_L</name><uri>model://tree_8</uri><pose>4.0 5.0 0 0 0 0</pose></include>
+  
+  <!-- Right tree (forces UAV to go left) -->
+  <include><name>tree_R</name><uri>model://tree_8</uri><pose>4.0 7.0 0 0 0 0</pose></include>
+  
+  <!-- Center obstacle (creates local minima by splitting the gap) -->
+  <include><name>tree_C</name><uri>model://pine_1</uri><pose>6.0 6.0 0 0 0 0.3</pose></include>
+  
+  <!-- Additional tree beyond the gap to create confusion -->
+  <include><name>tree_F</name><uri>model://tree_8</uri><pose>8.0 5.5 0 0 0 0</pose></include>
+
+  </world>
+</sdf>

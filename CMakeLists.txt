@@ -128,40 +128,29 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable(online_lk_vpf_apf_smart_rot_trigger_cpp
-  src/online_lk_vpf_apf_smart_rot_trigger.cpp
+add_executable(online_lk_vpf_apf_medium_forest_with_columns
+  src/online_lk_vpf_apf_medium_forest_with_columns.cpp
 )
 
-target_link_libraries(online_lk_vpf_apf_smart_rot_trigger_cpp
+target_link_libraries(online_lk_vpf_apf_medium_forest_with_columns
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
 
-add_executable(heading_angle
-  src/heading_angle.cpp
+add_executable(gap_finding
+  src/gap_finding.cpp
 )
 
-target_link_libraries(heading_angle
-  ${catkin_LIBRARIES}
-  ${OpenCV_LIBS}
-  ${OpenCV_LIBRARIES}
-  opencv_video
-)
-
-add_executable(online_lk_vpf_apf_with_path_controller
-  src/online_lk_vpf_apf_with_path_controller.cpp
-)
-
-target_link_libraries(online_lk_vpf_apf_with_path_controller
+target_link_libraries(gap_finding
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
 
-add_executable(online_lk_vpf_apf_goal_capture
-  src/online_lk_vpf_apf_goal_capture.cpp
+add_executable(rotational_apf_for_local_minima
+  src/rotational_apf_for_local_minima.cpp
 )
 
-target_link_libraries(online_lk_vpf_apf_goal_capture
+target_link_libraries(rotational_apf_for_local_minima
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )

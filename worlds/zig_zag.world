@@ -1,0 +1,2805 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="sparse_forest_striped_poles">
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-49 27 52 0 0.75 -0.76</pose>
+      </camera>
+    </gui>
+
+    <scene>
+      <ambient>0.40 0.40 0.40 1</ambient>
+      <background>0.70 0.80 0.90 1</background>
+      <shadows>false</shadows>
+    </scene>
+
+    <light name="sun" type="directional">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 20 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <physics name="default_physics" default="1" type="ode">
+      <max_step_size>0.005</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+
+    <model name="ground">
+      <static>true</static>
+      <pose>2 0 -0.05 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>44 37 0.1</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu>
+                <mu2>1.0</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>44 37 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.45 0.45 0.45 1</ambient>
+            <diffuse>0.45 0.45 0.45 1</diffuse>
+            <specular>0.02 0.02 0.02 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!--
+      Sparse forest obstacle layout supplied by the user.
+      12 striped cylindrical obstacles.
+      Pole radius: 0.30 m
+      Pole height: 3.0 m
+    -->
+    <model name="sparse_forest_pole_001">
+          <static>true</static>
+          <pose>-12.000 2.500 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_002">
+          <static>true</static>
+          <pose>-4.000 4.800 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_003">
+          <static>true</static>
+          <pose>4.000 7.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_004">
+          <static>true</static>
+          <pose>-15.000 10.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_005">
+          <static>true</static>
+          <pose>-10.000 -4.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_006">
+          <static>true</static>
+          <pose>-7.000 11.500 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_007">
+          <static>true</static>
+          <pose>-1.000 -3.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_008">
+          <static>true</static>
+          <pose>0.000 12.500 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_009">
+          <static>true</static>
+          <pose>8.000 13.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_010">
+          <static>true</static>
+          <pose>12.000 3.500 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_011">
+          <static>true</static>
+          <pose>15.000 14.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_forest_pole_012">
+          <static>true</static>
+          <pose>18.000 -2.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+  </world>
+</sdf>
+
+<!-- <?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="sparse_alternating_striped_poles">
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-49 27 52 0 0.75 -0.76</pose>
+      </camera>
+    </gui>
+
+    <scene>
+      <ambient>0.40 0.40 0.40 1</ambient>
+      <background>0.70 0.80 0.90 1</background>
+      <shadows>false</shadows>
+    </scene>
+
+    <light name="sun" type="directional">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 20 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <physics name="default_physics" default="1" type="ode">
+      <max_step_size>0.005</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+
+    <model name="ground">
+      <static>true</static>
+      <pose>2 0 -0.05 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>44 37 0.1</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu>
+                <mu2>1.0</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>44 37 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.45 0.45 0.45 1</ambient>
+            <diffuse>0.45 0.45 0.45 1</diffuse>
+            <specular>0.02 0.02 0.02 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!--
+      Sparse alternating obstacle layout supplied by the user.
+      Obstacles use the same striped cylindrical pole geometry/material
+      as the uploaded passable forest world:
+      radius = 0.30 m, height = 3.0 m.
+    -->
+    <model name="sparse_alternating_pole_001">
+          <static>true</static>
+          <pose>-12.000 3.700 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_002">
+          <static>true</static>
+          <pose>-12.000 7.300 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_003">
+          <static>true</static>
+          <pose>-6.000 2.400 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_004">
+          <static>true</static>
+          <pose>-6.000 6.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_005">
+          <static>true</static>
+          <pose>0.000 7.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_006">
+          <static>true</static>
+          <pose>0.000 10.600 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_007">
+          <static>true</static>
+          <pose>5.000 5.400 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_008">
+          <static>true</static>
+          <pose>5.000 11.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_009">
+          <static>true</static>
+          <pose>-16.000 11.500 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_010">
+          <static>true</static>
+          <pose>-10.000 -4.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_011">
+          <static>true</static>
+          <pose>-3.000 13.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_012">
+          <static>true</static>
+          <pose>9.000 13.500 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_013">
+          <static>true</static>
+          <pose>13.000 2.000 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+
+    <model name="sparse_alternating_pole_014">
+          <static>true</static>
+          <pose>17.000 -2.500 0 0 0 0</pose>
+          <link name="link">
+            <collision name="collision">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>3.0</length>
+                </cylinder>
+              </geometry>
+              <surface>
+                <contact>
+                  <ode>
+                    <kp>1000000</kp>
+                    <kd>100</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0.001</min_depth>
+                  </ode>
+                </contact>
+                <friction>
+                  <ode>
+                    <mu>1.0</mu>
+                    <mu2>1.0</mu2>
+                  </ode>
+                </friction>
+              </surface>
+            </collision>
+            <visual name="band_1">
+              <pose>0 0 0.3 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_2">
+              <pose>0 0 0.9 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_3">
+              <pose>0 0 1.5 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_4">
+              <pose>0 0 2.1 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.05 0.05 0.05 1</ambient>
+                <diffuse>0.05 0.05 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+            <visual name="band_5">
+              <pose>0 0 2.7 0 0 0</pose>
+              <geometry>
+                <cylinder>
+                  <radius>0.30</radius>
+                  <length>0.6</length>
+                </cylinder>
+              </geometry>
+              <material>
+                <ambient>0.85 0.35 0.05 1</ambient>
+                <diffuse>0.85 0.35 0.05 1</diffuse>
+                <specular>0.02 0.02 0.02 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+  </world>
+</sdf>  -->

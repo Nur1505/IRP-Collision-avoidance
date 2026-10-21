@@ -1,0 +1,132 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <world name='dense_forest_navigation'>
+
+  <gui fullscreen='0'>
+    <camera name='user_camera'>
+      <pose>-5 10 20 0 0.4 0 0</pose>
+    </camera>
+  </gui>
+  <shadows>0</shadows>
+
+  <light name='sun' type='directional'>
+    <cast_shadows>1</cast_shadows>
+    <pose>0 0 20 0 0 0</pose>
+    <diffuse>0.8 0.8 0.8 1</diffuse>
+    <specular>0.2 0.2 0.2 1</specular>
+    <attenuation>
+      <range>1000</range>
+      <constant>0.9</constant>
+      <linear>0.01</linear>
+      <quadratic>0.001</quadratic>
+    </attenuation>
+    <direction>-0.5 0.1 -0.9</direction>
+  </light>
+
+  <physics name='default_physics' default='1' type='ode'>
+    <max_step_size>0.005</max_step_size>
+    <real_time_factor>1</real_time_factor>
+    <real_time_update_rate>200</real_time_update_rate>
+  </physics>
+
+  <!-- Ground -->
+  <model name='ground'>
+    <static>1</static>
+    <link name='link'>
+      <collision name='collision'>
+        <geometry>
+          <box>
+            <size>25 25 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>25 25 0.1</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.25 0.45 0.18 1</ambient>
+          <diffuse>0.25 0.45 0.18 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <pose>0 0 -0.05 0 0 0</pose>
+  </model>
+
+  <!-- ============ LEFT SIDE: Entry zone ============ -->
+  
+  <!-- Entry gate -->
+  <include><name>tree_01</name><uri>model://tree_8</uri><pose>-8.0 6.0 0 0 0 0</pose></include>
+  <include><name>tree_02</name><uri>model://tree_8</uri><pose>-8.0 2.0 0 0 0 0</pose></include>
+  <include><name>tree_03</name><uri>model://pine_1</uri><pose>-6.0 4.0 0 0 0 0.3</pose></include>
+
+  <!-- ============ MIDDLE SECTION: Dense forest (reduced) ============ -->
+  
+  <!-- Row 1 (x = -4) - REMOVED 2 trees -->
+  <include><name>tree_04</name><uri>model://tree_8</uri><pose>-4.0 7.5 0 0 0 0</pose></include>
+  <include><name>tree_05</name><uri>model://pine_1</uri><pose>-4.0 5.5 0 0 0 -0.2</pose></include>
+  <!-- tree_06 REMOVED -->
+  <!-- tree_07 REMOVED -->
+
+  <!-- Row 2 (x = -2) - REMOVED 1 tree -->
+  <include><name>tree_08</name><uri>model://tree_8</uri><pose>-2.0 8.0 0 0 0 0</pose></include>
+  <include><name>tree_09</name><uri>model://pine_1</uri><pose>-2.0 6.0 0 0 0 -0.3</pose></include>
+  <include><name>tree_10</name><uri>model://tree_8</uri><pose>-2.0 4.0 0 0 0 0</pose></include>
+  <!-- tree_11 REMOVED -->
+
+  <!-- Row 3 (x = 0) - REMOVED 1 tree -->
+  <include><name>tree_12</name><uri>model://tree_8</uri><pose>0.0 8.5 0 0 0 0</pose></include>
+  <include><name>tree_13</name><uri>model://pine_1</uri><pose>0.0 6.5 0 0 0 -0.1</pose></include>
+  <include><name>tree_14</name><uri>model://tree_8</uri><pose>0.0 4.5 0 0 0 0</pose></include>
+  <include><name>tree_15</name><uri>model://pine_1</uri><pose>0.0 2.5 0 0 0 0.2</pose></include>
+  <!-- tree_16 REMOVED -->
+
+  <!-- Row 4 (x = 2) - REMOVED 1 tree -->
+  <include><name>tree_17</name><uri>model://tree_8</uri><pose>2.0 7.5 0 0 0 0</pose></include>
+  <include><name>tree_18</name><uri>model://pine_1</uri><pose>2.0 5.5 0 0 0 0.3</pose></include>
+  <include><name>tree_19</name><uri>model://tree_8</uri><pose>2.0 3.5 0 0 0 0</pose></include>
+  <!-- tree_20 REMOVED -->
+
+  <!-- Row 5 (x = 4) - REMOVED 1 tree -->
+  <include><name>tree_21</name><uri>model://tree_8</uri><pose>4.0 8.0 0 0 0 0</pose></include>
+  <include><name>tree_22</name><uri>model://pine_1</uri><pose>4.0 6.0 0 0 0 -0.2</pose></include>
+  <include><name>tree_23</name><uri>model://tree_8</uri><pose>4.0 4.0 0 0 0 0</pose></include>
+  <!-- tree_24 REMOVED -->
+
+  <!-- Row 6 (x = 6) - REMOVED 1 tree -->
+  <include><name>tree_25</name><uri>model://tree_8</uri><pose>6.0 7.5 0 0 0 0</pose></include>
+  <include><name>tree_26</name><uri>model://pine_1</uri><pose>6.0 5.5 0 0 0 0.1</pose></include>
+  <include><name>tree_27</name><uri>model://tree_8</uri><pose>6.0 3.5 0 0 0 0</pose></include>
+  <!-- tree_28 REMOVED -->
+
+  <!-- ============ RIGHT SIDE: Exit zone ============ -->
+
+  <!-- Exit gate -->
+  <include><name>tree_29</name><uri>model://tree_8</uri><pose>8.0 6.5 0 0 0 0</pose></include>
+  <include><name>tree_30</name><uri>model://tree_8</uri><pose>8.0 3.5 0 0 0 0</pose></include>
+  <include><name>tree_31</name><uri>model://pine_1</uri><pose>9.0 5.0 0 0 0 0.2</pose></include>
+
+  <!-- Edge trees (reduced) -->
+  <include><name>tree_E1</name><uri>model://tree_8</uri><pose>-6.0 9.0 0 0 0 0</pose></include>
+  <include><name>tree_E2</name><uri>model://tree_8</uri><pose>-4.0 9.5 0 0 0 0</pose></include>
+  <!-- tree_E3 REMOVED -->
+  <include><name>tree_E4</name><uri>model://tree_8</uri><pose>0.0 9.5 0 0 0 0</pose></include>
+  <!-- tree_E5 REMOVED -->
+  <include><name>tree_E6</name><uri>model://tree_8</uri><pose>4.0 9.5 0 0 0 0</pose></include>
+  <!-- tree_E7 REMOVED -->
+  <include><name>tree_E8</name><uri>model://tree_8</uri><pose>8.0 9.0 0 0 0 0</pose></include>
+
+  <!-- Bottom boundary trees (reduced) -->
+  <include><name>tree_B1</name><uri>model://tree_8</uri><pose>-6.0 0.5 0 0 0 0</pose></include>
+  <include><name>tree_B2</name><uri>model://tree_8</uri><pose>-4.0 0.5 0 0 0 0</pose></include>
+  <!-- tree_B3 REMOVED -->
+  <include><name>tree_B4</name><uri>model://tree_8</uri><pose>0.0 0.5 0 0 0 0</pose></include>
+  <!-- tree_B5 REMOVED -->
+  <include><name>tree_B6</name><uri>model://tree_8</uri><pose>4.0 0.5 0 0 0 0</pose></include>
+  <!-- tree_B7 REMOVED -->
+  <include><name>tree_B8</name><uri>model://tree_8</uri><pose>8.0 1.0 0 0 0 0</pose></include>
+
+  </world>
+</sdf>

@@ -84,7 +84,7 @@
 
 <!-- Near-goal complex section -->
 <include><name>tree_20</name><uri>model://pine_1</uri><pose>9.5 11.0 0 0 0 0.6</pose></include>
-<include><name>tree_21</name><uri>model://tree_8</uri><pose>10.5 8.0 0 0 0 -0.2</pose></include>
+<!-- <include><name>tree_21</name><uri>model://tree_8</uri><pose>10.5 8.0 0 0 0 -0.2</pose></include> -->
 <include><name>tree_22</name><uri>model://pine_1</uri><pose>11.5 12.0 0 0 0 0.4</pose></include>
 <include><name>tree_23</name><uri>model://tree_8</uri><pose>12.5 9.0 0 0 0 -0.1</pose></include>
 <include><name>tree_24</name><uri>model://pine_1</uri><pose>13.5 10.5 0 0 0 0.3</pose></include>
@@ -94,7 +94,7 @@
 <include><name>tree_26</name><uri>model://pine_1</uri><pose>-12.5 5.0 0 0 0 0.2</pose></include>
 <include><name>tree_27</name><uri>model://tree_8</uri><pose>-9.0 9.5 0 0 0 -0.3</pose></include>
 <include><name>tree_28</name><uri>model://pine_1</uri><pose>-4.0 5.5 0 0 0 0.1</pose></include>
-<include><name>tree_29</name><uri>model://tree_8</uri><pose>3.0 9.0 0 0 0 -0.2</pose></include>
+<!-- <include><name>tree_29</name><uri>model://tree_8</uri><pose>3.0 9.0 0 0 0 -0.2</pose></include> -->
 <include><name>tree_30</name><uri>model://pine_1</uri><pose>6.5 9.0 0 0 0 0.5</pose></include>
 <include><name>tree_31</name><uri>model://tree_8</uri><pose>9.0 6.0 0 0 0 -0.4</pose></include>
 <include><name>tree_32</name><uri>model://pine_1</uri><pose>14.0 8.5 0 0 0 0.2</pose></include>
